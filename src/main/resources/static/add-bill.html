@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>添加账单 - My Ledger</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="header">
+    <h2>添加新账单</h2>
+</div>
+
+<div class="bill-form">
+    <label for="name">账单名称:</label>
+    <input type="text" id="name" required>
+
+    <label for="consume_time">消费时间:</label>
+    <input type="datetime-local" id="consume_time" value="2024-12-19T10:30" required>
+
+    <label for="amount">金额:</label>
+    <input type="number" id="amount" step="0.01" required>
+
+    <button id="addBillButton">提交账单</button>
+</div>
+
+<script>
+    document.getElementById("addBillButton").addEventListener("click", function () {
+        const name = document.getElementById("name").value;
+        const consumeTime = document.getElementById("consume_time").value;
+        const amount = document.getElementById("amount").value;
+
+        const newBill = {
+            name: name,
+            consumeTime: consumeTime, // 这里传递的是字符串格式的日期时间
+            amount: amount,
+            user: { id: 1 }  // 假设当前用户ID为1，实际使用时可以从session获取
+        };
+
+        fetch("http://localhost:8080/api/bills/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newBill)
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("账单添加成功");
+                    window.location.href = "dashboard.html";  // 跳转到账单列表页面
+                } else {
+                    alert("账单添加失败");
+                }
+            })
+            .catch(error => console.error("Error adding bill:", error));
+    });
+</script>
+</body>
+</html>

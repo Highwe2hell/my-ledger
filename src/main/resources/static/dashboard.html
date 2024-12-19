@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的账本 - My Ledger</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="header">
+    <h2>欢迎来到 My Ledger</h2>
+    <button id="logoutButton">退出登录</button>
+</div>
+
+<div class="bill-container">
+    <h3>我的账单</h3>
+    <table id="billTable">
+        <thead>
+        <tr>
+            <th>账单名称</th>
+            <th>消费时间</th>
+            <th>金额</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 账单数据将通过 JavaScript 填充 -->
+        </tbody>
+    </table>
+    <button id="addBillButton">添加账单</button>
+</div>
+
+<script>
+    // 获取用户的所有账单
+    function fetchBills() {
+        fetch("http://localhost:8080/api/bills/user/1")  // 获取当前用户的账单
+            .then(response => response.json())
+            .then(data => {
+                const billTable = document.getElementById("billTable").getElementsByTagName('tbody')[0];
+                billTable.innerHTML = "";  // 清空表格内容
+
+                data.forEach(bill => {
+                    const row = billTable.insertRow();
+                    row.innerHTML = `
+                        <td>${bill.name}</td>
+                        <td>${bill.consumeTime}</td>
+                        <td>${bill.amount}</td>
+                        <td>
+                            <button onclick="editBill(${bill.id})">编辑</button>
+                            <button onclick="deleteBill(${bill.id})">删除</button>
+                        </td>
+                    `;
+                });
+            })
+            .catch(error => console.error("Error fetching bills:", error));
+    }
+
+    // 点击添加账单跳转到添加页面
+    document.getElementById("addBillButton").addEventListener("click", function () {
+        window.location.href = "add-bill.html";  // 跳转到添加账单页面
+    });
+
+    // 删除账单
+    function deleteBill(billId) {
+        if (confirm("确定要删除这个账单吗？")) {
+            fetch(`http://localhost:8080/api/bills/delete/${billId}`, {
+                method: "DELETE"
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("账单删除成功");
+                        fetchBills();  // 重新加载账单
+                    } else {
+                        alert("账单删除失败");
+                    }
+                })
+                .catch(error => console.error("Error deleting bill:", error));
+        }
+    }
+
+    // 编辑账单
+    function editBill(billId) {
+        // 将账单ID作为查询参数传递到编辑页面
+        window.location.href = `edit-bill.html?billId=${billId}`;
+    }
+
+    window.onload = fetchBills;  // 页面加载时获取账单数据
+</script>
+</body>
+</html>
