@@ -39,6 +39,7 @@ public class BillService {
         return billRepository.save(bill);
     }
 
+
     // 获取用户的所有账单
     public List<Bill> getBillsByUserId(Long userId) {
         return billRepository.findByUserId(userId);
@@ -69,4 +70,9 @@ public class BillService {
 
         return billRepository.save(bill);
     }
+
+    public List<Bill> getBillsByUserIdAndName(Long userId, String name) {
+        return billRepository.findByUserIdAndNameContaining(userId, name);
+    }
+
 }
