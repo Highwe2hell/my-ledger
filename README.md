@@ -1,12 +1,12 @@
 # My Ledger - 个人记账簿管理系统
 
-## 项目概述
+## 一、项目概述
 
 **My Ledger** 是一款简洁易用的个人记账簿管理系统，旨在帮助用户轻松记录和管理个人日常支出。用户可以高效地跟踪各种消费，从而更好地规划自己的财务。该项目基于 **Java** 和 **Spring Boot** 开发，提供基本的账户管理（登录、注册）和账单管理功能，包括查看、添加、删除、修改和查询账单。同时，系统还支持将账单数据导出为 **Excel** 表格，方便用户进行数据备份和长期分析。
 
 这个项目不仅具备实际应用价值，同时也非常适合作为大学生学习和实践 **面向对象编程**、**Spring Boot 框架**、**数据库操作** 以及 **前后端分离开发** 的课程设计项目。
 
-## 开发工具
+## 二、开发工具
 
 - **Java**：JDK 21
 - **框架**：Spring Boot 3.4.0
@@ -15,7 +15,7 @@
 - **前端**：HTML5、CSS3、JavaScript（前后端分离）
 - **IDE**：IntelliJ IDEA 2024.3.1 (Ultimate Edition)
 
-## 项目功能
+## 三、项目功能
 
 ### 1. 登录与注册
 
@@ -34,20 +34,20 @@
 
 - **导出账单**：账单数据可以导出为 Excel 表格，便于用户进行长期存储、备份和分析。
 
-## 技术细节
+## 四、技术细节
 
-### 后端
+### 1. 后端
 
 - **Spring Boot**：项目使用 **Spring Boot 3.4.0** 框架，简化了应用程序的配置和管理，加速了开发过程。
 - **MySQL**：使用 **MySQL 8.4** 作为数据库，存储用户信息和账单数据，确保数据的持久性和安全性。
 - **JPA/Hibernate**：利用 **Spring Data JPA** 实现数据库操作，提供简洁且高效的增、删、改、查功能。
 
-### 前端
+### 2. 前端
 
 - **HTML/CSS**：前端界面采用 **HTML5** 和 **CSS3** 技术，界面简洁直观，优化了用户体验。
 - **JavaScript**：前端逻辑通过 **JavaScript** 实现，处理表单提交、数据展示和与后端的交互。
 
-## 使用指南
+## 五、使用指南
 
 ### 1. 克隆项目
 
@@ -67,12 +67,21 @@ git clone https://github.com/Highwe2hell/my-ledger
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/my_ledger?useSSL=false&serverTimezone=UTC
-spring.datasource.username=root
+spring.datasource.username=your_username
 spring.datasource.password=your_password
-spring.jpa.hibernate.ddl-auto=update
 ```
 
-### 4. 启动项目
+### 4. 下载项目依赖
+
+在项目根目录下，确保 `pom.xml` 配置了所需的所有依赖项，Maven 会自动下载这些依赖项。你可以使用以下命令下载并安装依赖：
+
+```bash
+mvn clean install
+```
+
+该命令会根据 `pom.xml` 文件中的依赖项自动下载项目所需的所有库，并将其存储在本地 Maven 仓库。
+
+### 5. 启动项目
 
 使用 Maven 启动项目：
 
@@ -80,17 +89,17 @@ spring.jpa.hibernate.ddl-auto=update
 mvn spring-boot:run
 ```
 
-### 5. 访问系统
+### 6. 访问系统
 
-打开浏览器，访问 http://localhost:8080/login.html 使用系统。
+启动项目后，打开浏览器，访问 http://localhost:8080/login.html 使用系统。
 
-## 反馈与交流
+## 六、反馈与交流
 
 本项目是我在大学本科期间完成的 **Java 期末课程设计**。它提供了一个简单易用的记账管理系统，既能帮助用户管理日常账单，又能作为大学生学习编程和开发的参考。如果您发现 Bug 或有任何修改建议，欢迎提 **Issues** 或直接与我交流。如果您有问题，欢迎通过以下方式联系我：
 
 - **邮箱**：[github@hw2.xyz](mailto:github@hw2.xyz)
 
-## 许可
+## 七、许可
 
 本项目采用 **GPL-3.0** 许可证，您可以自由使用、修改和分发本项目的代码。根据该许可证的要求，任何对本项目的修改或派生作品都必须在相同的许可证下发布。
 
