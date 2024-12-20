@@ -9,6 +9,7 @@
 <body>
 <div class="header">
     <h2>欢迎来到 My Ledger</h2>
+    <span id="welcomeMessage"></span> <!-- 显示当前用户名 -->
     <button id="logoutButton">退出登录</button>
 </div>
 
@@ -31,9 +32,25 @@
 </div>
 
 <script>
-    // 获取用户的所有账单
-    function fetchBills() {
-        fetch("http://localhost:8080/api/bills/user/1")  // 获取当前用户的账单
+    window.onload = function () {
+        const userId = localStorage.getItem('userId');
+        const username = localStorage.getItem('username');
+
+        // 如果用户未登录，跳转到登录页面
+        if (!userId) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        // 显示当前登录用户名
+        document.getElementById('welcomeMessage').innerText = `欢迎回来，${username}`;
+
+        fetchBills(userId);  // 获取并显示当前登录用户的账单
+    };
+
+    // 获取用户的账单
+    function fetchBills(userId) {
+        fetch(`http://localhost:8080/api/bills/user/${userId}`)  // 获取当前用户的账单
             .then(response => response.json())
             .then(data => {
                 const billTable = document.getElementById("billTable").getElementsByTagName('tbody')[0];
@@ -41,9 +58,11 @@
 
                 data.forEach(bill => {
                     const row = billTable.insertRow();
+                    const formattedDate = formatDate(bill.consumeTime);
+
                     row.innerHTML = `
                         <td>${bill.name}</td>
-                        <td>${bill.consumeTime}</td>
+                        <td>${formattedDate}</td>
                         <td>${bill.amount}</td>
                         <td>
                             <button onclick="editBill(${bill.id})">编辑</button>
@@ -53,6 +72,18 @@
                 });
             })
             .catch(error => console.error("Error fetching bills:", error));
+    }
+
+    // 格式化消费时间为 'yyyy年mm月dd日 hh:mm' 格式
+    function formatDate(consumeTime) {
+        const date = new Date(consumeTime);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份是从0开始，所以需要加1
+        const day = date.getDate().toString().padStart(2, '0');
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+
+        return `${year}年${month}月${day}日 ${hours}:${minutes}`;
     }
 
     // 点击添加账单跳转到添加页面
@@ -69,7 +100,7 @@
                 .then(response => {
                     if (response.ok) {
                         alert("账单删除成功");
-                        fetchBills();  // 重新加载账单
+                        fetchBills(localStorage.getItem('userId'));  // 重新加载账单
                     } else {
                         alert("账单删除失败");
                     }
@@ -80,11 +111,15 @@
 
     // 编辑账单
     function editBill(billId) {
-        // 将账单ID作为查询参数传递到编辑页面
-        window.location.href = `edit-bill.html?billId=${billId}`;
+        window.location.href = `edit-bill.html?billId=${billId}`;  // 跳转到编辑页面
     }
 
-    window.onload = fetchBills;  // 页面加载时获取账单数据
+    // 退出登录功能
+    document.getElementById("logoutButton").addEventListener("click", function () {
+        localStorage.removeItem('userId');
+        localStorage.removeItem('username');
+        window.location.href = "login.html";  // 跳转到登录页面
+    });
 </script>
 </body>
 </html>
