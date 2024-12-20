@@ -1,43 +1,34 @@
-CREATE DATABASE
-    IF
-    NOT EXISTS my_ledger;
+-- 创建数据库 my_ledger 如果它不存在
+CREATE DATABASE IF NOT EXISTS my_ledger;
+
+-- 使用刚创建或已存在的数据库 my_ledger
 USE my_ledger;
 
+-- 设置字符集为 utf8mb4 以支持更多的字符
 SET NAMES utf8mb4;
 
+-- 暂时禁用外键检查以避免删除表时出现错误
 SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE
-    IF
-        EXISTS `bill`;
-CREATE TABLE `bill`
-(
-    `id`           INT                         NOT NULL AUTO_INCREMENT,
-    `user_id`      INT                         NOT NULL,
-    `name`         VARCHAR(100) CHARACTER
-        SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-    `consume_time` datetime                    NOT NULL,
-    `amount`       DECIMAL(10, 2)              NOT NULL,
-    PRIMARY KEY (`id`) USING BTREE,
-    INDEX `user_id` (`user_id` ASC) USING BTREE,
-    CONSTRAINT `bill_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = INNODB
-  AUTO_INCREMENT = 1
-  CHARACTER
-      SET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci
-  ROW_FORMAT = Dynamic;
-DROP TABLE
-    IF
-        EXISTS `user`;
+
+-- 删除 user 表如果它存在
+DROP TABLE IF EXISTS `user`;
+
+-- 创建 user 表用于存储用户信息
 CREATE TABLE `user`
 (
+    -- 主键 id 自动递增
     `id`         INT                           NOT NULL AUTO_INCREMENT,
+    -- 用户名 最大长度为 50 的字符串 必须唯一
     `username`   VARCHAR(50) CHARACTER
         SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    -- 密码 最大长度为 255 的字符串
     `password`   VARCHAR(255) CHARACTER
         SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    -- 创建时间 默认值为当前时间戳
     `created_at` TIMESTAMP                     NULL DEFAULT CURRENT_TIMESTAMP,
+    -- 设置主键索引
     PRIMARY KEY (`id`) USING BTREE,
+    -- 为 username 列设置唯一索引以确保用户名不重复
     UNIQUE INDEX `username` (`username` ASC) USING BTREE
 ) ENGINE = INNODB
   AUTO_INCREMENT = 1
@@ -45,12 +36,46 @@ CREATE TABLE `user`
       SET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci
   ROW_FORMAT = Dynamic;
+
+-- 删除 bill 表如果它存在
+DROP TABLE IF EXISTS `bill`;
+
+-- 创建 bill 表用于存储账单信息
+CREATE TABLE `bill`
+(
+    -- 主键 id 自动递增
+    `id`           INT                         NOT NULL AUTO_INCREMENT,
+    -- 用户 id 外键关联 user 表
+    `user_id`      INT                         NOT NULL,
+    -- 账单名称 最大长度为 100 的字符串
+    `name`         VARCHAR(100) CHARACTER
+        SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    -- 消费时间 datetime 类型
+    `consume_time` datetime                    NOT NULL,
+    -- 消费金额 decimal 类型 精度为 10 小数位为 2
+    `amount`       DECIMAL(10, 2)              NOT NULL,
+    -- 设置主键索引
+    PRIMARY KEY (`id`) USING BTREE,
+    -- 为 user_id 列设置索引以提高查询效率
+    INDEX `user_id` (`user_id` ASC) USING BTREE,
+    -- 设置外键约束 当 user 表中的记录被删除时 受影响的 bill 记录将受到限制
+    CONSTRAINT `bill_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = INNODB
+  AUTO_INCREMENT = 1
+  CHARACTER
+      SET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci
+  ROW_FORMAT = Dynamic;
+
+-- 向 user 表插入初始数据
 INSERT INTO `user` (`username`, `password`)
 VALUES ('user1', '123456'),
        ('user2', '123456'),
        ('user3', '123456'),
        ('user4', '123456'),
        ('user5', '123456');
+
+-- 向 bill 表插入初始数据
 INSERT INTO `bill` (`user_id`, `name`, `consume_time`, `amount`)
 VALUES (1, '购物', '2024-12-01 10:00:00', 120.50),
        (1, '电费', '2024-12-02 15:30:00', 80.00),
@@ -147,4 +172,5 @@ VALUES (1, '购物', '2024-12-01 10:00:00', 120.50),
        (5, '咖啡', '2024-12-17 16:30:00', 25.00),
        (5, '晚餐', '2024-12-18 19:00:00', 80.00);
 
+-- 重新启用外键检查以确保数据完整性
 SET FOREIGN_KEY_CHECKS = 1;

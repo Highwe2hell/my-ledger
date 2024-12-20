@@ -1,4 +1,6 @@
+// 页面加载时执行的函数
 window.onload = function () {
+    // 从本地存储获取用户ID和用户名
     const userId = localStorage.getItem('userId');
     const username = localStorage.getItem('username');
 
@@ -8,10 +10,11 @@ window.onload = function () {
         return;
     }
 
-    // 显示当前登录用户名
-    document.getElementById('welcomeMessage').innerText = `Hi, ${username}！`;
+    // 显示欢迎信息和当前登录用户名
+    document.getElementById('welcomeMessage').innerText = `欢迎使用 My Ledger, ${username}！`;
 
-    fetchBills(userId);  // 获取并显示当前登录用户的账单
+    // 获取并显示当前登录用户的账单
+    fetchBills(userId);
 };
 
 // 获取用户的账单
@@ -23,16 +26,21 @@ function fetchBills(userId, searchQuery = '') {
         url += `?name=${searchQuery}`;
     }
 
-    fetch(url)  // 获取当前用户的账单
+    // 获取当前用户的账单
+    fetch(url)
         .then(response => response.json())
         .then(data => {
+            // 获取账单表格的tbody部分
             const billTable = document.getElementById("billTable").getElementsByTagName('tbody')[0];
-            billTable.innerHTML = "";  // 清空表格内容
+            // 清空表格内容
+            billTable.innerHTML = "";
 
+            // 遍历每个账单并添加到表格中
             data.forEach(bill => {
                 const row = billTable.insertRow();
                 const formattedDate = formatDate(bill.consumeTime);
 
+                // 填充账单行数据
                 row.innerHTML = `
                             <td>${bill.name}</td>
                             <td>${formattedDate}</td>
@@ -68,7 +76,8 @@ document.getElementById("addBillButton").addEventListener("click", function () {
 document.getElementById("searchButton").addEventListener("click", function () {
     const searchQuery = document.getElementById("billSearch").value.trim();
     const userId = localStorage.getItem('userId');
-    fetchBills(userId, searchQuery);  // 带查询条件调用fetchBills
+    // 带查询条件调用fetchBills
+    fetchBills(userId, searchQuery);
 });
 
 // 清除查询并恢复所有账单
@@ -77,7 +86,8 @@ document.getElementById("clearSearchButton").addEventListener("click", function 
     document.getElementById("billSearch").value = "";
 
     const userId = localStorage.getItem('userId');
-    fetchBills(userId);  // 恢复所有账单
+    // 恢复所有账单
+    fetchBills(userId);
 });
 
 // 删除账单
@@ -89,7 +99,8 @@ function deleteBill(billId) {
             .then(response => {
                 if (response.ok) {
                     alert("账单删除成功");
-                    fetchBills(localStorage.getItem('userId'));  // 重新加载账单
+                    // 重新加载账单
+                    fetchBills(localStorage.getItem('userId'));
                 } else {
                     alert("账单删除失败");
                 }
@@ -100,13 +111,16 @@ function deleteBill(billId) {
 
 // 编辑账单
 function editBill(billId) {
+    // 跳转到编辑账单页面
     window.location.href = `edit-bill.html?billId=${billId}`;
 }
 
 // 退出登录功能
 document.getElementById("logoutButton").addEventListener("click", function () {
+    // 移除本地存储中的用户信息
     localStorage.removeItem('userId');
     localStorage.removeItem('username');
+    // 跳转到登录页面
     window.location.href = "login.html";
 });
 

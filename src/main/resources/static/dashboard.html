@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
+<!-- 头部区域，包含欢迎信息和退出登录按钮 -->
 <div class="header">
-    <h1>欢迎使用 My Ledger！</h1>
-    <span id="welcomeMessage" class="username"></span> <!-- 显示当前用户名 -->
+    <h1 id="welcomeMessage"></h1>
     <button id="logoutButton" class="logout-btn">退出登录</button>
 </div>
 
+<!-- 主要内容区域，包含账单操作和显示 -->
 <div class="content-container">
     <div class="bill-container">
         <h2>我的账单</h2>
@@ -24,6 +25,7 @@
             <button id="clearSearchButton" class="clear-btn">清除查询</button>
         </div>
 
+        <!-- 账单表格，用于显示账单信息 -->
         <table id="billTable" class="bill-table">
             <thead>
             <tr>
@@ -38,6 +40,7 @@
             </tbody>
         </table>
 
+        <!-- 按钮容器，包含添加账单和导出账单的按钮 -->
         <div class="button-container">
             <button id="addBillButton" class="action-btn">添加账单</button>
             <button id="exportBillsButton" class="action-btn">导出账单为 Excel</button>
@@ -45,6 +48,7 @@
     </div>
 </div>
 
+<!-- 引入 JavaScript 文件，用于实现页面交互 -->
 <script src="js/dashboard.js"></script>
 </body>
 </html>

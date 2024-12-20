@@ -12,8 +12,10 @@
     <h1>My Ledger</h1>
 </header>
 
+<!-- 用户认证容器，包含登录表单和相关提示信息 -->
 <div class="auth-container">
     <h2>请登录您的账户</h2>
+    <!-- 登录表单，包含用户名和密码输入框以及登录按钮 -->
     <form id="loginForm">
         <div class="input-group">
             <label for="username">用户名:</label>
@@ -25,7 +27,9 @@
         </div>
         <button type="submit">登录</button>
     </form>
+    <!-- 错误消息提示框，当用户名或密码错误时显示 -->
     <div id="errorMessage" class="error-message" style="display: none;">用户名或密码错误</div>
+    <!-- 注册链接，引导用户至注册页面 -->
     <p class="register-link">还没有账户？ <a href="register.html">注册账户</a></p>
 </div>
 

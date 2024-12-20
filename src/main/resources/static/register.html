@@ -1,36 +1,49 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+    <!-- 设置文档字符编码为UTF-8 -->
     <meta charset="UTF-8">
+    <!-- 设置视口以适应不同设备 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 设置页面标题 -->
     <title>注册 - My Ledger</title>
+    <!-- 引入外部CSS样式表 -->
     <link rel="stylesheet" href="css/auth.css">
 </head>
 
 <body class="register">
+<!-- 页面头部 -->
 <header>
     <h1>My Ledger</h1>
 </header>
 
+<!-- 注册表单容器 -->
 <div class="auth-container">
     <h2>注册新账户</h2>
+    <!-- 注册表单 -->
     <form id="registerForm">
+        <!-- 用户名输入框 -->
         <div class="input-group">
             <label for="username">用户名:</label>
             <input type="text" id="username" name="username" required placeholder="请输入用户名">
         </div>
+        <!-- 密码输入框 -->
         <div class="input-group">
             <label for="password">密码:</label>
             <input type="password" id="password" name="password" required placeholder="请输入密码">
         </div>
+        <!-- 提交按钮 -->
         <button type="submit">注册</button>
     </form>
 
+    <!-- 错误消息显示区域 -->
     <div id="errorMessage" class="error-message">用户名已存在</div>
 
+    <!-- 返回登录链接 -->
     <p class="register-link">已经有账户？ <a href="login.html">返回登录</a></p>
 </div>
 
+<!-- 引入外部JavaScript脚本 -->
 <script src="js/register.js"></script>
 </body>
 </html>
