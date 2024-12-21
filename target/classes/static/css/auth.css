@@ -1,0 +1,116 @@
+/* 全局样式 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+/* 页头 */
+header {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+/* 登录/注册容器 */
+.auth-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin-top: 60px;
+}
+
+/* 标题 */
+.auth-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 输入框样式 */
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* 输入框 */
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+}
+
+/* 输入框获得焦点时的样式 */
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* 提交按钮 */
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 按钮悬停效果 */
+button:hover {
+    background-color: #45a049;
+}
+
+/* 错误信息 */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    display: none;
+}
+
+/* 注册链接 */
+.register-link {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.register-link a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .auth-container {
+        padding: 20px;
+        width: 90%;
+    }
+}
