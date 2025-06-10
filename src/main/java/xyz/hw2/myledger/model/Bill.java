@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * Bill类代表一个账单条目，包含账单的相关信息如名称、金额、消费时间和所属用户
@@ -50,10 +52,9 @@ public class Bill {
      * @param amount      账单金额
      */
     public Bill(User user, String name, LocalDateTime consumeTime, Double amount) {
-        this.user = user;
-        this.name = name;
-        this.consumeTime = consumeTime;
-        this.amount = amount;
+        this.user = Objects.requireNonNull(user, "User cannot be null");
+        this.name = Objects.requireNonNull(name, "Name cannot be null");
+        this.consumeTime = Objects.requireNonNull(consumeTime, "Consume time cannot be null");
+        this.amount = Objects.requireNonNull(amount, "Amount cannot be null");
     }
-
 }
