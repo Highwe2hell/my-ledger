@@ -27,3 +27,18 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+# Java/Maven 忽略项
+/target/
+*.class
+
+# 编译器或打包工具生成
+*.jar
+*.war
+*.ear
+
+# IDEA 配置文件
+.idea/
+*.iml
+*.ipr
+*.iws
